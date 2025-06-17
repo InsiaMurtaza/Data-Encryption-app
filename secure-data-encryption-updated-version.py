@@ -212,24 +212,21 @@ elif choice == "Retrieve Data":
     if "user" in st.session_state:
         username = st.session_state["user"]
         user_record = st.session_state.stored_data.get(username)
-    else:
-        styled_message("Please login first.","warning","#FFFFFF")
-    if user_record:
-        passkey = st.text_input("Enter your passkey", type="password")
-        if st.button("Decrypt"):
-            decrypted_list = []
-            for entry in user_record["data"]:
-                salt = base64.b64decode(entry["salt"])
-                decrypted = decrypt_data(username, passkey, salt, entry["encrypted_text"])
-                if decrypted:
-                    decrypted_list.append(decrypted)
-            if decrypted_list:
-                    styled_message("Decrypted data:","success","#FFFFFF") 
-                    for i, item in enumerate(decrypted_list, 1):
-                            st.write(f"{i}. {item}")
-            else:
-                styled_message("Incorrect passkey or data error.","error","black")
-
+        if user_record:
+            passkey = st.text_input("Enter your passkey", type="password")
+            if st.button("Decrypt"):
+                decrypted_list = []
+                for entry in user_record["data"]:
+                    salt = base64.b64decode(entry["salt"])
+                    decrypted = decrypt_data(username, passkey, salt, entry["encrypted_text"])
+                    if decrypted:
+                        decrypted_list.append(decrypted)
+                if decrypted_list:
+                        styled_message("Decrypted data:","success","#FFFFFF") 
+                        for i, item in enumerate(decrypted_list, 1):
+                                st.write(f"{i}. {item}")
+                else:
+                    styled_message("Incorrect passkey or data error.","error","black")
     else:
         styled_message("Please login first.","warning","#FFFFFF")
 
