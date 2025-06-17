@@ -212,6 +212,8 @@ elif choice == "Retrieve Data":
     if "user" in st.session_state:
         username = st.session_state["user"]
         user_record = st.session_state.stored_data.get(username)
+    else:
+        styled_message("Please login first.","warning","#FFFFFF")
     if user_record:
         passkey = st.text_input("Enter your passkey", type="password")
         if st.button("Decrypt"):
